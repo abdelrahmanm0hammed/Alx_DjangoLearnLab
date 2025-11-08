@@ -4,5 +4,5 @@ from .views import LibraryDetailView
 
 urlpatterns = [
     path('list_books/',views.list_books,name='list_books'),
-    path('LibraryDetail/',views.LibraryDetailView, name='LibrayDetail')
+    path('LibraryDetail/',views.LibraryDetail, name='LibrayDetail')
 ]
