@@ -3,8 +3,8 @@ from .models import Book , Author, Librarian, Library
 
 
 def get_books_by_author(author_name):
-    author =Author.objects.get(name =author_name)
-    books = Book.objects.filter(author= author)
+    author =Author.objects.get(name=author_name)
+    books = Book.objects.filter(author=author)
     return books
 
 def get_books_in_library(library_name):
