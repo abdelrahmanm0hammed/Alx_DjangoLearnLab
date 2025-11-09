@@ -10,7 +10,7 @@ from .views import LibraryDetailView
 
 urlpatterns = [
     path('list_books/',views.list_books,name='list_books'),
-   #path('LibraryDetail/',views.LibraryDetail, name='LibrayDetail'),
+    path('LibraryDetail/',views.LibraryDetailView.as_view(), name='LibrayDetail'),
     path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
     path('register/',views.register,name='register')
