@@ -5,7 +5,7 @@ from django.contrib.auth.views import LogoutView
 
 from . import views
 from .views import list_books
-#from .views import LibraryDetail
+from .views import LibraryDetailView
 
 
 urlpatterns = [
