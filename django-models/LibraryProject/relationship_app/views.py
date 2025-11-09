@@ -32,7 +32,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 def register(request):
-    if request.method == "POST"
+    if request.method == "POST":
         form =UserCreationForm(request.POST)
         if form.is_valid():
             user =form.save()
