@@ -6,7 +6,7 @@ from django.contrib.auth.views import LogoutView
 from . import views
 from .views import list_books
 #from .views import LibraryDetail
-from .views import login, logout, register
+
 
 urlpatterns = [
     path('list_books/',views.list_books,name='list_books'),
