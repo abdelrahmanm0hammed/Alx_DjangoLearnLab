@@ -10,4 +10,7 @@ def book_list(request):
   return render(request,'bookshelf/book_list.html',{'books':books})
 # Create your views here.
 
+def create_book(request):
+  form = ExampleForm()
+  return render(request,'bookshelf/form_example.html',{'form':form})
 
