@@ -12,5 +12,10 @@ def book_list(request):
 
 def create_book(request):
   form = ExampleForm()
+  if request.method == "POST"
+      form =ExampleForm(request.POST)
+      if form.is_valid():
+          form.save()
   return render(request,'bookshelf/form_example.html',{'form':form})
+
 
