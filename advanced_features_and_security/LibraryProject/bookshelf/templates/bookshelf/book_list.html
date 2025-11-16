@@ -8,7 +8,7 @@
 <body>
     <form>
         {% csrf_token %}
-    {%for book in Book%}
+    {%for book in books%}
     {{book.title}}
     {{book.author}}
     {{book.publication_year}}<br>
