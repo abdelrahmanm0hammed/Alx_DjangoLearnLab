@@ -4,8 +4,15 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+    class Meta:
+        permissions = [
+            ("can_create", "Can create a book"),
+            ("can_view", "Can view book"),
+            ("can_delete", "Can delete book"),
+            ("can_edit", "Can edit book")
+        ]
 
-    def __str__(self):
+   
 
         return f"{self.title} by {self.author} ({self.publication_year})"
 class CustomUser(AbstractUser):
@@ -16,5 +23,6 @@ class CustomUserManager(BaseUserManager):
         pass
     def create_superuser(self, username, email , password, **extra_fields):
         pass
+
 
 
