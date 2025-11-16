@@ -6,7 +6,7 @@
     <title>Create a book</title>
 </head>
 <body>
-    <form>
+    <form method="post">
         {% csrf_token %}
         {{form}}
         <button type="submit">Save</button>
