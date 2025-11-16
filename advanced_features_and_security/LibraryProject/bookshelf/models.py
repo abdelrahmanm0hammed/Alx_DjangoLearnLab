@@ -11,3 +11,7 @@ class Book(models.Model):
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField()
     profile_photo = models.ImageField()
+class CustomUserMangager(BaseUserManager):
+    def create_user(self, username, email , password, **extra_fields):
+        pass
+
