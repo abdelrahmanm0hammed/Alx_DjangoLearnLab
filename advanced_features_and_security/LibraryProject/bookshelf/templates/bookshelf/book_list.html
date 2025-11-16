@@ -1,1 +1,18 @@
-book_list
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List view</title>
+</head>
+<body>
+    <form>
+        {% csrf_token %}
+    {%for book in Book%}
+    {{book.title}}
+    {{book.author}}
+    {{book.publication_year}}<br>
+    {%endfor%}
+    </form>
+</body>
+</html>
