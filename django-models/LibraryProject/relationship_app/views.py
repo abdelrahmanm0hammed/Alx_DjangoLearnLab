@@ -85,9 +85,7 @@ def register(request):
         
         return render(request, 'relationship_app/register.html',{'form':form})
     
-from django.contrib.auth.decorators import login_required, user_passes_test
 
-# relationship_app/views.py
 
 from django.contrib.auth.decorators import user_passes_test, login_required
 
