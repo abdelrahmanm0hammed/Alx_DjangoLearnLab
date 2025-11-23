@@ -32,11 +32,16 @@ ALLOWED_HOSTS = []
 #DRF Authentication
 
 REST_FRAMEWORK = {
+    # Authentication classes determine how the API verifies user identity.
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # TokenAuthentication: Allows API clients to authenticate via a token
         'rest_framework.authentication.TokenAuthentication',
+        # SessionAuthentication: Enables login via Django sessions (for browsable API)
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
+        # Permission classes determine who can access API endpoints
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
