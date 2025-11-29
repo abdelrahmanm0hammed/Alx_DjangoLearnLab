@@ -14,7 +14,8 @@ class BookSerializer(serializers.ModelSerializer):
         return value # returning the validated value to keep it and continue processing
     
 class AuthorSerializer(serializers.ModelSerializer):
-    books =BookSerializer(many=True, read_only = True)
+
+    books =BookSerializer(many=True, read_only=True)
     class Meta:
         model = Author
         fields = ['name']
