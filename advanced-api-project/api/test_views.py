@@ -21,3 +21,11 @@ class BookAPITests(APITestCase):
         book = Book.objects.get()
         self.assertEqual(book.title, "mybook")
         self.assertEqual(response.data["publication_year"], 2025)
+
+
+    def test_authenticated_user_can_create_book(self):
+        # Create a temporary test user in the test database
+        user = User.objects.create_user(username="testuser",password="testpass123")
+        # REQUIRED: login
+        logged_in = self.client.login(username="testuser", password="testpass123")
+        self.assertTrue(logged_in) # ensure login worked
