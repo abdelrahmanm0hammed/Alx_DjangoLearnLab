@@ -20,4 +20,4 @@ class BookAPITests(APITestCase):
         self.assertEqual(Book.objects.count(), 1)   
         book = Book.objects.get()
         self.assertEqual(book.title, "mybook")
-        self.assertEqual(book.publication_year, 2025)
+        self.assertEqual(response.data["publication_year"], 2025)
