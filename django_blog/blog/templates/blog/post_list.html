@@ -2,6 +2,16 @@
 {% block content %}
 <h1>All Posts</h1>
 
+<form method="get" action="{% url 'post-search' %}" class="search-form">
+    <input 
+        type="text" 
+        name="q" 
+        placeholder="Search posts..." 
+        value="{{ query|default:'' }}"
+    >
+    <button type="submit">Search</button>
+</form>
+
 {% if posts %}
   <ul class="post-list">
     {% for post in posts %}
