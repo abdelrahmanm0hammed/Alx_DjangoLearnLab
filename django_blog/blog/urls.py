@@ -17,10 +17,10 @@ urlpatterns = [
     path('logout/',views.logout,name='logout'),
     path('profile/',views.profile,name='profile'),
     path('post/',PostListView.as_view(), name='post-list'),
-    path('post/create/',PostCreateView.as_view(), name='post-create'),
+    path('post/new/',PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/', PostDeleteView.as_view(), name='post-detail' ),
-    path('post/update/<int:pk>/', PostUpdateView.as_view, name='post-update'),
-    path('post/delete/<int:pk>/', PostDeleteView.as_view, name ='post-delete'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view, name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view, name ='post-delete'),
  
 
 ]
