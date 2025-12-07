@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1>All Posts</h1>
+
+{% if posts %}
+  <ul class="post-list">
+    {% for post in posts %}
+      <li class="post-item">
+        <h2><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+        <p class="meta">by {{ post.author }} • {{ post.created_at|date:"F j, Y" }}</p>
+        <p class="snippet">{{ post.content|truncatewords:30 }}</p>
+        <a href="{% url 'post-detail' post.pk %}" class="read-more">Read more</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {# pagination controls (optional) #}
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+{% else %}
+  <p>No posts yet.</p>
+{% endif %}
+
+{# link to create new post (only shows link; CreateView will enforce login) #}
+<p><a href="{% url 'post-create' %}" class="btn">Create New Post</a></p>
+{% endblock %}
