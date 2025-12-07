@@ -3,9 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.urls import reverse
-from django.views.generic import CreateView
 
-from rest_framework import generics
 from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, UpdateView, ListView , DeleteView, DetailView
@@ -30,7 +28,7 @@ def home(request):
     return render(request,'blog/home.html')
 
 def posts(request):
-    return render(request,'blog/posts.html')
+    return redirect('post-list')
 
 def login(request):
     if request.method == 'POST':
@@ -47,6 +45,7 @@ def login(request):
         return render(request, 'blog/login.html')
 
 def logout(request):
+    auth.logout(request)
     return render(request, 'blog/logout.html')
 
 def profile(request):
@@ -68,7 +67,7 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         # add an empty CommentForm to the context
-        context['comment_form'] = CommentForm()
+        context['comments'] = Comment.objects.filter(post=self.object)
 
         return context
 
@@ -104,7 +103,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
    model = Post
-   form_class = PostForm
    template_name ='blog/post_confirm_delete.html'
    context_object_name = 'post'
    success_url = '/posts/'
@@ -121,12 +119,14 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     template_name ='blog/comment_form.html'
     
     def form_valid(self, form):
-        post_id = self.kwargs['post_id']
+        post_id = self.kwargs['pk']
         form.instance.post = get_object_or_404(Post, pk= post_id)
         form.instance.author = self.request.user
         return super().form_valid(form)
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.post.pk})
 
-class CommentUpdateView(LoginRequiredMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/comment_form.html'
