@@ -11,6 +11,9 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from taggit.models import Tag
+
+
 def register(request):
 
     if request.method =='POST':
@@ -166,3 +169,21 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
     def get_success_url(self):
         return reverse('post-detail', kwargs={'pk':self.object.post.pk})
+    
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # reuse your post list template
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        # get the tag object using django-taggit
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        # filter posts that have this tag
+        return Post.objects.filter(tags__slug=tag_slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.kwargs.get('tag_slug')
+        return context
