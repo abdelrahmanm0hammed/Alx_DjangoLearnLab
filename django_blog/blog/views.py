@@ -6,12 +6,11 @@ from django.views.generic import CreateView
 
 from rest_framework import generics
 from .models import Post
-from .serializers import PostSerializer
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-from django_filters import rest_framework
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import CreateView, UpdateView, ListView , DeleteView, DetailView
+from .models import Post
+from .forms import PostForm
+
 def register(request):
 
     if request.method =='POST':
@@ -23,7 +22,8 @@ def register(request):
         form = UserCreationForm()
 
         return render(request, 'blog/register.html',{'form':form})
-    
+
+
 def home(request):
     return render(request,'blog/home.html')
 
@@ -40,38 +40,36 @@ def profile(request):
     return render(request,'blog/profile.html')
 
 
-class PostListView(generics.ListAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['title', 'content', 'published_date', 'author']
-    search_fields = ['title', 'content', 'published_date', 'author']
-    ordering_fields = ['title', 'content', 'published_date', 'author']
+class PostListView(ListView):
+   pass
 
 
-class PostDetailView(generics.RetrieveAPIView):
-    queryset=Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly]
+class PostDetailView(DetailView):
+  pass
 
-class PostCreateView(generics.CreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes =[TokenAuthentication]
-
-
-class PostUpdateView(generics.UpdateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model =Post
+    form_class =PostForm
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+  
 
 
-class PostDeleteView(generics.DestroyAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes =[TokenAuthentication]
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+   model = Post
+   form_class = PostForm
+
+   def form_valid(self, form):
+       form.instance.author = self.request.user
+       return super().form_valid(form) 
+    def test_func(self):
+        post = self.get_object()
+        return post.author == self.request.user
+   
+   pass
+
+
+class PostDeleteView(DeleteView):
+   pass
 
