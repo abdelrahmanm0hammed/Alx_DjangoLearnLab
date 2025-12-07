@@ -125,6 +125,11 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     def get_success_url(self):
         return reverse('post-detail', kwargs={'pk': self.object.post.pk})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the post to the template so the cancel link works
+        context['post'] = get_object_or_404(Post, pk=self.kwargs['pk'])
+        return context
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment

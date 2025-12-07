@@ -39,7 +39,7 @@
 
 {% if user.is_authenticated %}
   <h4>Add a Comment</h4>
-  <form action="{% url 'comment-create' post.pk %}" method="post">
+  <form action="{% url 'comment-create'  pk=post.pk %}" method="post">
     {% csrf_token %}
     {{ comment_form.content }}
     <button type="submit" class="btn">Post Comment</button>

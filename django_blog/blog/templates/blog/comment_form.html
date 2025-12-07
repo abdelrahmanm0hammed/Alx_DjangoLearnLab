@@ -12,6 +12,7 @@
   </div>
 
   <button type="submit" class="btn">{% if object %}Update{% else %}Post{% endif %}</button>
-  <a href="{% url 'post-detail' object.post.pk %}" class="btn">Cancel</a>
+  <a href="{% url 'post-detail' post.pk %}" class="btn">Cancel</a>
 </form>
+
 {% endblock %}
