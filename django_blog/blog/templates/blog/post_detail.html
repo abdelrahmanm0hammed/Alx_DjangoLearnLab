@@ -8,6 +8,15 @@
     {{ post.content|linebreaks }}
   </div>
 
+  {% if post.tags.all %}
+  <p class="tags">
+    <strong>Tags:</strong>
+    {% for tag in post.tags.all %}
+      <a href="{% url 'tag-detail' tag.name %}" class="tag-link">#{{ tag.name }}</a>
+    {% endfor %}
+  </p>
+{% endif %}
+
   {# Edit / Delete links shown if user is author #}
   {% if user.is_authenticated and user == post.author %}
     <p class="post-actions">
