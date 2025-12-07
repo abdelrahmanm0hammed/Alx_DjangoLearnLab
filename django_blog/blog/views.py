@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
+from django.contrib import messages
+from django.urls import reverse
 from django.views.generic import CreateView
 
 from rest_framework import generics
@@ -22,7 +23,7 @@ def register(request):
     else:
         form = UserCreationForm()
 
-        return render(request, 'blog/register.html',{'form':form})
+    return render(request, 'blog/register.html',{'form':form})
 
 
 def home(request):
@@ -32,7 +33,18 @@ def posts(request):
     return render(request,'blog/posts.html')
 
 def login(request):
-    return render(request, 'blog/login.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password= password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request,'Invalid username or password')
+            return redirect('login')
+    else :
+        return render(request, 'blog/login.html')
 
 def logout(request):
     return render(request, 'blog/logout.html')
@@ -59,6 +71,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.pk})
   
 
 
@@ -73,6 +87,8 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
    def test_func(self):
         post = self.get_object()
         return post.author == self.request.user
+   def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.pk})
    
    
 

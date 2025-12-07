@@ -104,6 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+LOGIN_URL = '/login/'  # matches your login path
+LOGIN_REDIRECT_URL = '/posts/'  # optional, redirect after login
+LOGOUT_REDIRECT_URL = '/posts/' # optional, redirect after logout
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
