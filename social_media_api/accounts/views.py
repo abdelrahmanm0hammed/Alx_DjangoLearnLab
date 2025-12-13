@@ -11,7 +11,8 @@ class RegisterView(generics.CreateAPIView):
     permission_classes=[permissions.AllowAny]
 
 
-class LoginView(APIView):
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
     permission_classes= [permissions.AllowAny]
 
     def post(self, request):
