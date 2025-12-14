@@ -33,3 +33,22 @@ class ProfileView(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
+class followUserView(generics.GenericAPIView):
+    serializer_class= UserSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_follow= User.objects.get(id= user_id)
+        request.user.following.add(user_to_follow)
+        request.user.save()
+        return Response({'status':'followed', 'user': UserSerializer(user_to_follow).data})
+    
+class UnfollowUserView(generics.GenericAPIView):
+    serializer_class= UserSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_unfollow= User.objects.get(id=user_id)
+        request.user.following.remove(user_to_unfollow)
+        request.user.save()
+        return Response({'status':'unfollowed', 'user': UserSerializer(user_to_unfollow).data})
