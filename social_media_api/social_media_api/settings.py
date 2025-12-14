@@ -16,11 +16,30 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-#x=&yhyv3kfmc6+ve4c3v$eom4w5+gg)@s@=6s8v)z-r3i4)uy'
+
+
+##
+
+# Prevent some forms of XSS attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent your site from being rendered in a frame (clickjacking protection)
+X_FRAME_OPTIONS = 'DENY'
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Optional extra protections
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME type sniffing
+
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
