@@ -13,4 +13,4 @@ class Notification(models.Model):
     target = GenericForeignKey('target_content_type', 'target_object_id')
 
     def __str__(self):
-        return f'{self.actor} {self.verb} [self.target]'
+        return f'{self.actor} {self.verb} 

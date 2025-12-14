@@ -5,6 +5,7 @@ from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from notifications.models import Notification
 class RegisterView(generics.CreateAPIView):
     queryset= CustomUser.objects.all()
     serializer_class= RegisterSerializer
